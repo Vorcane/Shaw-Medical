@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus\fpc\2.6.4\bin\i386-win32\fpc.exe" Date="1154382129"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -vewnhi &quot;-Fi\\ggs.local\ggs\StudentDocs\2014\lachlan.blackhall\computer science\Task 28-08-2014\lib\i386-win32&quot; &quot;-Fu\\ggs.local\ggs\StudentDocs\2014\lachlan.blackhall\computer science\Task 28-08-2014\&quot; &quot;-FU\\ggs.local\ggs\StudentDocs\2014\lachlan.blackhall\computer science\Task 28-08-2014\lib\i386-win32\&quot; -l InitialDraft.pas"/>
+</CONFIG>

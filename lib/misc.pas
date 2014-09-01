@@ -1,0 +1,18 @@
+unit Misc;
+
+{$mode objfpc}{$H+}
+
+interface
+function ClrScrr:string;
+
+implementation
+function ClrScrr:string;
+begin
+ writeln('                       ^                              ');
+ writeln('                      / \');
+ writeln('                     /   \');
+ writeln('                     ----');
+ writeln('                   Loominati');
+end;
+end.
+
