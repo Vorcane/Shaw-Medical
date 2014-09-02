@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="InitialDraft.pas"/>
         <IsPartOfProject Value="True"/>
@@ -12,10 +12,10 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="579"/>
-        <CursorPos X="49" Y="593"/>
-        <FoldState Value=" T3F0{K212 T0.e0cf"/>
-        <UsageCount Value="52"/>
+        <TopLine Value="679"/>
+        <CursorPos X="69" Y="732"/>
+        <FoldState Value=" T3F0{K2 pk6mO0i]9j2k70u142p"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -25,7 +25,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="24" Y="9"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit1>
       <Unit2>
         <Filename Value="C:\lazarus\fpc\2.6.2\source\rtl\inc\systemh.inc"/>
@@ -34,127 +34,139 @@
         <CursorPos X="11" Y="946"/>
         <UsageCount Value="9"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="lib\misc.pas"/>
+        <UnitName Value="Misc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit3>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="448" Column="22" TopLine="391"/>
+        <Caret Line="60" Column="33" TopLine="41"/>
       </Position1>
       <Position2>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="569" Column="3" TopLine="28"/>
+        <Caret Line="739" Column="74" TopLine="32"/>
       </Position2>
       <Position3>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="60" Column="33" TopLine="41"/>
+        <Caret Line="747" Column="42" TopLine="732"/>
       </Position3>
       <Position4>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="739" Column="74" TopLine="32"/>
+        <Caret Line="10" Column="58" TopLine="1"/>
       </Position4>
       <Position5>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="747" Column="42" TopLine="732"/>
+        <Caret Line="826" Column="39" TopLine="794"/>
       </Position5>
       <Position6>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="10" Column="58" TopLine="1"/>
+        <Caret Line="767" Column="46" TopLine="746"/>
       </Position6>
       <Position7>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="826" Column="39" TopLine="794"/>
+        <Caret Line="768" Column="28" TopLine="745"/>
       </Position7>
       <Position8>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="767" Column="46" TopLine="746"/>
+        <Caret Line="847" Column="69" TopLine="841"/>
       </Position8>
       <Position9>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="768" Column="28" TopLine="745"/>
+        <Caret Line="577" Column="6" TopLine="352"/>
       </Position9>
       <Position10>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="847" Column="69" TopLine="841"/>
+        <Caret Line="575" Column="10" TopLine="12"/>
       </Position10>
       <Position11>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="577" Column="6" TopLine="352"/>
+        <Caret Line="579" Column="3" TopLine="12"/>
       </Position11>
       <Position12>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="575" Column="10" TopLine="12"/>
+        <Caret Line="578" Column="21" TopLine="12"/>
       </Position12>
       <Position13>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="579" Column="3" TopLine="12"/>
+        <Caret Line="575" Column="31" TopLine="6"/>
       </Position13>
       <Position14>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="578" Column="21" TopLine="12"/>
+        <Caret Line="577" Column="5" TopLine="6"/>
       </Position14>
       <Position15>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="575" Column="31" TopLine="6"/>
+        <Caret Line="585" Column="16" TopLine="300"/>
       </Position15>
       <Position16>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="577" Column="5" TopLine="6"/>
+        <Caret Line="570" Column="18" TopLine="1"/>
       </Position16>
       <Position17>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="585" Column="16" TopLine="300"/>
+        <Caret Line="10" Column="68" TopLine="1"/>
       </Position17>
       <Position18>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="570" Column="18" TopLine="1"/>
+        <Caret Line="575" Column="35" TopLine="300"/>
       </Position18>
       <Position19>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="10" Column="68" TopLine="1"/>
+        <Caret Line="586" Column="1" TopLine="300"/>
       </Position19>
       <Position20>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="575" Column="35" TopLine="300"/>
+        <Caret Line="890" Column="10" TopLine="570"/>
       </Position20>
       <Position21>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="586" Column="1" TopLine="300"/>
+        <Caret Line="955" Column="33" TopLine="931"/>
       </Position21>
       <Position22>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="890" Column="10" TopLine="570"/>
+        <Caret Line="953" Column="30" TopLine="936"/>
       </Position22>
       <Position23>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="955" Column="33" TopLine="931"/>
+        <Caret Line="955" Column="35" TopLine="939"/>
       </Position23>
       <Position24>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="953" Column="30" TopLine="936"/>
+        <Caret Line="623" Column="10" TopLine="620"/>
       </Position24>
       <Position25>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="955" Column="35" TopLine="939"/>
+        <Caret Line="646" Column="22" TopLine="630"/>
       </Position25>
       <Position26>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="623" Column="10" TopLine="620"/>
+        <Caret Line="647" Column="22" TopLine="621"/>
       </Position26>
       <Position27>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="646" Column="22" TopLine="630"/>
+        <Caret Line="690" Column="41" TopLine="666"/>
       </Position27>
       <Position28>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="647" Column="22" TopLine="621"/>
+        <Caret Line="1098" Column="42" TopLine="14"/>
       </Position28>
       <Position29>
         <Filename Value="InitialDraft.pas"/>
-        <Caret Line="690" Column="41" TopLine="666"/>
+        <Caret Line="712" Column="22" TopLine="669"/>
       </Position29>
+      <Position30>
+        <Filename Value="InitialDraft.pas"/>
+        <Caret Line="742" Column="36" TopLine="703"/>
+      </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

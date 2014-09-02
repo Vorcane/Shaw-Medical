@@ -693,6 +693,53 @@ begin
 end;
 procedure ViewAppointment;
 begin
+ writeln('This will alloy you to view the details of an appointment');
+ writeln('Please enter the time for the appointment you wish to view in format 0000xx e.g 1230pm or 0400am');
+ readln(time);    //reads what time the user wants to make an appointment for
+ assign(appointment, time); //assigns
+ {$i-}   {Turns off compiler error checking preventing the program from crashing if no file is at the entered name}
+ reset(Appointment);//This next section reads all the appointment details
+ {$i+}   {Turns compiler error checking back on}
+ if IOresult<>0 then   {IOresult returns a value depending on whether or not there was an error with the input, 0 means no error}
+    begin
+      if Counter = 4 then {This returns to the main menu if too many tries are made to prevent been stuck there}
+         begin
+           writeln('Too many tries, returning to main menu');
+           goto 3;      {go's to the end of the procedure}
+         end;
+      writeln('Error, file not found try again');   {Tells the user that they entered an invalid file name}
+      Inc(Counter); {Increases the counter by one}
+      goto 2;       {returns to just before asking the user to enter a file name}
+    end
+ else
+   begin
+    writeln('Here are the appointment details');
+   end;
+
+ readln(Appointment, Filename);          //reads the variables from the file
+ readln(Appointment, ID);
+ readln(Appointment, PTitle);
+ readln(Appointment, PatientFName);
+ readln(Appointment, PatientLName);
+ readln(Appointment, ' ');
+ readln(Appointment, DFilename);
+ readln(Appointment, DID);
+ readln(Appointment, DTitle);
+ readln(Appointment, DoctorFName);
+ readln(Appointment, DoctorLName);
+ close(Appointment);
+
+ writeln(Filename);      //writes the read variables to the terminal
+ writeln(ID);
+ writeln(PTitle);
+ writeln(PatientFName);
+ writeln(PatientLName);
+ writeln(' ');
+ writeln(DFilename);
+ writeln(DID);
+ writeln(DTitle);
+ writeln(DoctorFName);
+ writeln(DoctorLName);
 
 end;
 
