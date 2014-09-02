@@ -1,5 +1,5 @@
 program InitialDraft;
-uses Crt, Dos, Classes, SysUtils, Misc; {Used for the clear screens and the bright text}
+uses Crt, Dos, Classes, SysUtils, misc; {Used for the clear screens and the bright text}
 label 1; {Used to jump to whatever part of the program is been tested}
 
 const
@@ -9,10 +9,11 @@ const
 Var Choice, ID, Counter, Index:integer;
     PatientFile, IDFile, FilenameFile, DoctorFile, AvApps, Appointment:text;
     Filename, PatientFName, PatientLName, PatientAddress, AdminUsername, AdminPassword, PTitle:string;
-    PPostCode, PatientTelephone, PDOB, DTitle, DoctorFName, DoctorLName, time, DFilename, DID:string;
+    PPostCode, PatientTelephone, PDOB, DTitle, DoctorFName, DoctorLName, time, DFilename, DID, ninjaline:string;
     Filearray : Array[1..999] of string;
     FileList, AppList:TStringList;
 
+//make all the files been created .txts
 Procedure AddPatient; { TODO : Prettify the add patient screen with a menu like the others }
 label 1;
 begin
@@ -568,6 +569,7 @@ procedure AddAppointment;
 label 2; {allows the user to try again if an error is made}
 label 3; {exits the procedure if too many errors are made}
 label 4; //allows the user to try again if too many errors are made
+label 999; //Just cause (allows for re entering the time if a user mistake is made)
 begin
  ClrScr;
  writeln('This screen allows you to add an appointment');
@@ -583,10 +585,31 @@ begin
  close(AvApps);
  readln;
  writeln;
+ 999: //allows the user to enter the time again if they make a mistake
  writeln('Please enter a time in format 0000xx, e.g 1030am or 0200pm');
  readln(time);    //reads what time the user wants to make an appointment for
- assign(appointment, time);
- rewrite(appointment);
+ assign(appointment, 'Appointments/'+time+'.txt');
+ writeln('Checking for file...');
+ delay(500);
+ {$i-}   {Turns off compiler error checking preventing the program from crashing if no file is at the entered name}
+ rewrite(appointment);;   {creates a new appointment file at the specified time}
+ {$i+}   {Turns compiler error checking back on}
+ if IOresult<>0 then   {IOresult returns a value depending on whether or not there was an error with the input, 0 means no error}
+    begin
+      if Counter = 4 then {This returns to the main menu if too many tries are made to prevent been stuck there}
+         begin
+           writeln('Too many tries, returning to main menu');
+           goto 3;      {go's to the end of the procedure}
+         end;
+      writeln('Error, file not found try again');   {Tells the user that they entered an invalid file name}
+      Inc(Counter); {Increases the counter by one}
+      goto 999;       {returns to just before asking the user to enter a file name}
+    end
+ else
+   begin
+    writeln('File found, proceeding now');
+   end;
+
  writeln('Please enter the filename of the patient to be added');
  2: {allows the user to enter another filename if an error is made}
  readln(Filename);  {reads the name of the file to be displayed}
@@ -647,6 +670,7 @@ begin
  readln(DoctorFile, DTitle);         {reads the Doctors title from the Doctors file}
  readln(DoctorFile, DoctorFName);   {reads the Doctors details from the Doctor file}
  readln(DoctorFile, DoctorLName);   {reads the Doctors last name from the Doctors file}
+ close(DoctorFile);
 
  writeln('Patient Filename: ', Filename);    //This outputs all the patients relevant details to the console for confirmation
  writeln('Patient ID: ', ID);
@@ -689,14 +713,20 @@ begin
  AppList.Delete(Index);                 {deletes the filename been removed from the T string list}
  AppList.SaveToFile('Appointments/Avapps.txt');    {Saves the modified T string list back to the Appointment list file}
  AppList.free;                          {Deletes the T String List}
+ writeln('Saved, please press enter to continue');
  3:{exits the procedure if a mistake is made too many times}
 end;
 procedure ViewAppointment;
+label 2;
+label 3;
 begin
- writeln('This will alloy you to view the details of an appointment');
+ ClrScr;
+ readln; //fixes one of them wierd readln bug things
+ 2:
+ writeln('This will allow you to view the details of an appointment');
  writeln('Please enter the time for the appointment you wish to view in format 0000xx e.g 1230pm or 0400am');
  readln(time);    //reads what time the user wants to make an appointment for
- assign(appointment, time); //assigns
+ assign(Appointment, 'Appointments/'+time+'.txt'); //assigns the appointment name to the time read from the user
  {$i-}   {Turns off compiler error checking preventing the program from crashing if no file is at the entered name}
  reset(Appointment);//This next section reads all the appointment details
  {$i+}   {Turns compiler error checking back on}
@@ -704,7 +734,7 @@ begin
     begin
       if Counter = 4 then {This returns to the main menu if too many tries are made to prevent been stuck there}
          begin
-           writeln('Too many tries, returning to main menu');
+           writeln('Too many tries, press enter to return to the main menu');
            goto 3;      {go's to the end of the procedure}
          end;
       writeln('Error, file not found try again');   {Tells the user that they entered an invalid file name}
@@ -721,7 +751,7 @@ begin
  readln(Appointment, PTitle);
  readln(Appointment, PatientFName);
  readln(Appointment, PatientLName);
- readln(Appointment, ' ');
+ readln(Appointment, ninjaline);  //needed to correctly read from the file due to the formatting
  readln(Appointment, DFilename);
  readln(Appointment, DID);
  readln(Appointment, DTitle);
@@ -734,13 +764,15 @@ begin
  writeln(PTitle);
  writeln(PatientFName);
  writeln(PatientLName);
- writeln(' ');
+ writeln(' ');   //adds a small space for formatting and ease of reading
  writeln(DFilename);
  writeln(DID);
  writeln(DTitle);
  writeln(DoctorFName);
  writeln(DoctorLName);
-
+ writeln;
+ writeln('Press enter to continue');
+ 3:
 end;
 
 procedure ScheduleMenu;
@@ -782,6 +814,9 @@ begin
 end;
 procedure PrintDailyList;
 begin
+ clrscr;
+ writeln('This screen will allow you to print a list of all scheduled appointment times');
+ writeln('If you wish to view the details for an appointment please use the view appointment screen located in the Appointment screen option in the main menu');
 
 end;
 Procedure AdminMenu;
@@ -934,83 +969,83 @@ repeat {This is an authentication system}
                            writeln(AvApps, '0630pm');
                            close(AvApps);
 
-                           assign(Appointment, 'Appointments/0900am');   {This next bit creates blank text files for every appointment}
+                           assign(Appointment, 'Appointments/0900am.txt');   {This next bit creates blank text files for every appointment}
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0930am');
+                           assign(Appointment, 'Appointments/0930am.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/1000am');
+                           assign(Appointment, 'Appointments/1000am.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/1030am');
+                           assign(Appointment, 'Appointments/1030am.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/1100am');
+                           assign(Appointment, 'Appointments/1100am.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/1130am');
+                           assign(Appointment, 'Appointments/1130am.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/1200pm');
+                           assign(Appointment, 'Appointments/1200pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/1230pm');
+                           assign(Appointment, 'Appointments/1230pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0100pm');
+                           assign(Appointment, 'Appointments/0100pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0130pm');
+                           assign(Appointment, 'Appointments/0130pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0200pm');
+                           assign(Appointment, 'Appointments/0200pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0230pm');
+                           assign(Appointment, 'Appointments/0230pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0300pm');
+                           assign(Appointment, 'Appointments/0300pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0330pm');
+                           assign(Appointment, 'Appointments/0330pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0400pm');
+                           assign(Appointment, 'Appointments/0400pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0430pm');
+                           assign(Appointment, 'Appointments/0430pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0500pm');
+                           assign(Appointment, 'Appointments/0500pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0530pm');
+                           assign(Appointment, 'Appointments/0530pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0600pm');
+                           assign(Appointment, 'Appointments/0600pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
 
-                           assign(Appointment, 'Appointments/0630pm');
+                           assign(Appointment, 'Appointments/0630pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
                            writeln('Finished, returning to menu');
@@ -1063,7 +1098,7 @@ begin
   delay(50);
   gotoXY(26,7);
   ClrEol;
-  writeln('3. Schedule Appointment        |');
+  writeln('3. Appointment Screen          |');
   delay(50);
   gotoXY(26,8);
   ClrEol;
