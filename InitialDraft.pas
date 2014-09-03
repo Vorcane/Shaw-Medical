@@ -6,8 +6,8 @@ const
   AUsername = 'Admin';     {The admin Username for the admin menu}
   APassword = 'Password';  {The admin Password for the admin menu}
 
-Var Choice, ID, Counter, Index:integer;
-    PatientFile, IDFile, FilenameFile, DoctorFile, AvApps, Appointment:text;
+Var Choice, ID, Counter, Counter2, Index:integer;
+    PatientFile, IDFile, FilenameFile, DoctorFile, AvApps, Appointment, BookedApps:text;
     Filename, PatientFName, PatientLName, PatientAddress, AdminUsername, AdminPassword, PTitle:string;
     PPostCode, PatientTelephone, PDOB, DTitle, DoctorFName, DoctorLName, time, DFilename, DID, ninjaline:string;
     Filearray : Array[1..999] of string;
@@ -713,7 +713,11 @@ begin
  AppList.Delete(Index);                 {deletes the filename been removed from the T string list}
  AppList.SaveToFile('Appointments/Avapps.txt');    {Saves the modified T string list back to the Appointment list file}
  AppList.free;                          {Deletes the T String List}
- writeln('Saved, please press enter to continue');
+
+ assign(BookedApps, 'Appointments/BookedApps.txt'); //assigns the term BookedApps to the file containing the booked appointments
+ append(BookedApps);
+ writeln(BookedApps, time);
+ close(BookedApps);
  3:{exits the procedure if a mistake is made too many times}
 end;
 procedure ViewAppointment;
@@ -759,10 +763,11 @@ begin
  readln(Appointment, DoctorLName);
  close(Appointment);
 
- writeln(Filename);      //writes the read variables to the terminal
- writeln(ID);
- writeln(PTitle);
- writeln(PatientFName);
+ writeln('Patient details');
+ writeln('Patient Filename: ',Filename);      //writes the read variables to the terminal
+ writeln('Patient ID: ',ID);
+ writeln('Patient Title: ',PTitle);
+ writeln('Patient First Name: ',PatientFName);
  writeln(PatientLName);
  writeln(' ');   //adds a small space for formatting and ease of reading
  writeln(DFilename);
@@ -817,6 +822,18 @@ begin
  clrscr;
  writeln('This screen will allow you to print a list of all scheduled appointment times');
  writeln('If you wish to view the details for an appointment please use the view appointment screen located in the Appointment screen option in the main menu');
+ writeln('There are appointments booked at the following times: ');
+
+ assign(BookedApps, 'Appointments/BookedApps.txt');
+ Applist:= TStringList.Create;
+ Applist.LoadFromFile('Appointments/BookedApps.txt');
+ writeln(Applist.Text);
+ Applist.free;
+
+ readln;
+ readln;
+
+
 
 end;
 Procedure AdminMenu;
@@ -891,6 +908,7 @@ repeat {This is an authentication system}
  case Choice of 1:        begin
                            repeat
                            writeln('warning this will reset the ID File and could result in patient files been overwritten');
+                           writeln('This will also clear the filename file');
                            delay(500);   {provides delays to make sure the user really want to reset the file}
                            writeln('This is unreversible');
                            delay(500);
@@ -908,6 +926,10 @@ repeat {This is an authentication system}
                            rewrite(IDFile);               {clears the IDFile}
                            writeln(IDFile, '1');          {resets the id to 1}
                            close(IDFile);                 {saves the new ID}
+
+                           assign(FilenameFile, 'Filefile.txt');   //assigns the file name file
+                           rewrite(FilenameFile);                  //clears the filename file to prevent errors with the user ID file been reset
+                           close(FilenameFile);                   //closes the file name file
                            writeln('Successfully reset ID File');
                            break; {the breaks in this case are needed to exit the loop successfully}
                           end;
@@ -944,7 +966,7 @@ repeat {This is an authentication system}
                            writeln('1: Yes');
                            writeln('2: No');
                            readln(Choice); {Reads what choice the user makes}
-                           if Choice = 2 then break;
+                           if Choice = 2 then break; //leaves the procedure if the user changes their mind
                            assign(AvApps, 'Appointments/AvApps.txt');
                            rewrite(AvApps); {This next bit rewrites the available appointments list to display the complete list of available appointments}
                            writeln(AvApps, '0900am');
@@ -1048,6 +1070,11 @@ repeat {This is an authentication system}
                            assign(Appointment, 'Appointments/0630pm.txt');
                            rewrite(Appointment);
                            close(Appointment);
+
+                           assign(BookedApps, 'Appointments/BookedApps.txt');  //assigns the bookings file
+                           rewrite(BookedApps);                                //clears the bookings file
+                           close(BookedApps);                                  //closes the bookings file
+
                            writeln('Finished, returning to menu');
                            delay(1500);
                            break;
@@ -1154,9 +1181,9 @@ end; {end for main menu procedure}
 
 begin
   highvideo;
-  {Addpatient;}
-  {patientscreen;}     {These procedure calls are here for quick skip to the parts been tested, are commented out when not in use}
-  {AdminMenu;}
+  //Addpatient;
+  //patientscreen;     {These procedure calls are here for quick skip to the parts been tested, are commented out when not in use}
+  //AdminMenu;
   writeln('  --------------------------------------------------------------------------- ');
   writeln(' |                             |               |                             | ');
   writeln(' |                             |               |                             | ');
