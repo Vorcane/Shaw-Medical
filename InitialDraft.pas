@@ -298,15 +298,17 @@ begin
  1: {allows the user to exit the module if they dont want to remove a patient}
  writeln('Press enter to return to main menu');
 end;
-Procedure ViewPatient;   { TODO : Prettify }
+Procedure ViewPatient;   { TODO : Prettify } { TODO : FIX THE DARN VIEW PATIENT THING OMG }
 label 2;    {returns to enter file name in case of error}
 label 3;    {Exits module if too many tries made}
 begin
+ readln;
  writeln('This screen will allow you to view a patients file');
  2: {allows program to return to enter filename in case of error}
  writeln('Please enter the file name you wish to view');
+
  readln(Filename);  {reads the name of the file to be displayed}
- assign(PatientFile, 'Patients/'+Filename); {This assigns the identifier PatientFile to the patients file} {The plus sign makes it work, must join the strings or something}
+ assign(PatientFile, 'Patients/'+Filename+'.txt'); {This assigns the identifier PatientFile to the patients file} {The plus sign makes it work, must join the strings or something}
 
  writeln('Checking for file...');
  delay(500);
@@ -407,7 +409,7 @@ begin
  writeln('Please enter the doctor name in format: FName_LName-',ID);  {This instructs the user to enter the doctors name with their unique ID at the end}
  readln(Filename); {This reads the patients name to make a file in their name}
 
- assign(DoctorFile, 'Doctors/'+Filename); {This assigns the identifier PatientFile to the patients file} {The plus sign makes it work, must join the strings or something}
+ assign(DoctorFile, 'Doctors/'+Filename+'.txt'); {This assigns the identifier PatientFile to the patients file} {The plus sign makes it work, must join the strings or something}
  1: {this allows the user to re enter information if there was an error}
  rewrite(DoctorFile);      {This creates a new file in the name of the patient}
  writeln(DoctorFile, FileName); {This writes the Filename used to the patients file}
@@ -460,7 +462,7 @@ begin
  1:
  ClrScr;
 
- assign(DoctorFile, 'Doctors/'+Filename); {This assigns the identifier DoctorFile to the Doctors file} {The plus sign makes it work, must join the strings or something}
+ assign(DoctorFile, 'Doctors/'+Filename+'.txt'); {This assigns the identifier DoctorFile to the Doctors file} {The plus sign makes it work, must join the strings or something}
  writeln('Checking for file...');
  delay(500);
  {$i-}   {Turns off compiler error checking preventing the program from crashing if no file is at the entered name}
@@ -644,7 +646,7 @@ begin
 
  4: {allows the user to try again if an error is made}
  readln(DFilename);
- assign(DoctorFile, 'Doctors/'+DFilename); {This assigns the identifier DoctorFile to the Doctors file} {The plus sign makes it work, must join the strings or something}
+ assign(DoctorFile, 'Doctors/'+DFilename+'.txt'); {This assigns the identifier DoctorFile to the Doctors file} {The plus sign makes it work, must join the strings or something}
  writeln('Checking for file...');
  delay(500);
  {$i-}   {Turns off compiler error checking preventing the program from crashing if no file is at the entered name}

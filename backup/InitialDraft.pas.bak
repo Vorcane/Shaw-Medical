@@ -298,15 +298,17 @@ begin
  1: {allows the user to exit the module if they dont want to remove a patient}
  writeln('Press enter to return to main menu');
 end;
-Procedure ViewPatient;   { TODO : Prettify }
+Procedure ViewPatient;   { TODO : Prettify } { TODO : FIX THE DARN VIEW PATIENT THING OMG }
 label 2;    {returns to enter file name in case of error}
 label 3;    {Exits module if too many tries made}
 begin
+ readln;
  writeln('This screen will allow you to view a patients file');
  2: {allows program to return to enter filename in case of error}
  writeln('Please enter the file name you wish to view');
+
  readln(Filename);  {reads the name of the file to be displayed}
- assign(PatientFile, 'Patients/'+Filename); {This assigns the identifier PatientFile to the patients file} {The plus sign makes it work, must join the strings or something}
+ assign(PatientFile, 'Patients/'+Filename+'.txt'); {This assigns the identifier PatientFile to the patients file} {The plus sign makes it work, must join the strings or something}
 
  writeln('Checking for file...');
  delay(500);
@@ -714,7 +716,7 @@ begin
  AppList.SaveToFile('Appointments/Avapps.txt');    {Saves the modified T string list back to the Appointment list file}
  AppList.free;                          {Deletes the T String List}
 
-
+ assign(BookedApps, 'Appointments/BookedApps.txt'); //assigns the term BookedApps to the file containing the booked appointments
  append(BookedApps);
  writeln(BookedApps, time);
  close(BookedApps);
