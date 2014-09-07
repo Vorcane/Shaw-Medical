@@ -8,13 +8,16 @@ const
 
 Var Choice, ID, Counter, Counter2, Index, Keyinteger:integer;
     PatientFile, IDFile, FilenameFile, DoctorFile, AvApps, Appointment, BookedApps:text;
-    Filename, PatientFName, PatientLName, PatientAddress, AdminUsername, AdminPassword, PTitle:string;
-    PPostCode, PatientTelephone, PDOB, DTitle, DoctorFName, DoctorLName, time, DFilename, DID, ninjaline:string;
+    Filename, PatientFName, PatientLName, PatientAddress, PPostCode, PatientTelephone, PDOB, PTitle:string //patient strings
+    AdminUsername, AdminPassword, :string;    //log in details
+    DTitle, DoctorFName, DoctorLName, DFilename, DID:string; //doctor strings
+    time, ninjaline:string
     Filearray : Array[1..999] of string;
     FileList, AppList:TStringList;
     Key:char;
 
-//make all the files been created .txts
+
+//the patient module
 Procedure AddPatient;
 label 1;
 begin
@@ -48,7 +51,7 @@ begin
  writeln('  --------------------------------------------------------------------------- ');
  writeln(' |                       Welcome to the patient module                       | ');
  writeln(' |                                                                           | ');
- writeln(' |   Please enter patient name in format: FName_LName-',ID,'                      | ');{This instructs the user to enter the patients name with their unique ID at the end}
+ writeln(' |   Please enter patient name in format: FName_LName-',ID,'                     | ');{This instructs the user to enter the patients name with their unique ID at the end}
  writeln(' |                                                                           | ');
  writeln(' |   Patient File Name:                                                      | ');
  writeln(' |                                                                           | ');
@@ -68,6 +71,13 @@ begin
  writeln(' |                                                                           | ');
  writeln(' |                                                                           | ');
  writeln('  --------------------------------------------------------------------------- ');
+
+ if ID<10 then
+  begin
+   GotoXY(60,4);  //goes to the end of the info line
+   ClrEOL; //clears the line
+   writeln('                  | ');    //inserts a space and line to fix formatting with low ID's
+  end;
 
  gotoXY(25,6); //moves the cursor to the patient name field
  read(Filename); {This reads the patients name to make a file in their name}                       {saves all the written data to the text file}
@@ -541,8 +551,8 @@ begin
 
  3: {Exits module if too many tries made}
 end;
-
 procedure PatientScreen;
+
 begin
  clrscr;   {Clears the previous menu and displays the patient menu}
  writeln('  --------------------------------------------------------------------------- ');
@@ -580,12 +590,16 @@ begin
  end;
  readln;
 end;
-procedure AddDoctor;       //make files txts
+
+//the doctor module
+procedure AddDoctor;
 label 1; {Allows the user to edit what they entered if they made a mistake}
+label 3;
 begin
+ Counter:= 1; //initalises the counter
+ Counter2:= 1; //initialises the other counter
+ 1: {this allows the user to re enter information if there was an error}
  ClrScr;
- readln; {This fixed the program skipping a readln}
- writeln('Welcome to the patient Module');
  assign(IDFile, 'IDFile.txt');
  reset(IDFile);  {This opens the ID file for reading}
  readln(IDFile, ID);  {This reads the last used ID from the ID file}
@@ -595,110 +609,216 @@ begin
  writeln(IDFIle, ID);         {This adds one to the last used ID for adding future patients}
  close(IDFile);
 
- writeln('Please enter the doctor name in format: FName_LName-',ID);  {This instructs the user to enter the doctors name with their unique ID at the end}
- readln(Filename); {This reads the patients name to make a file in their name}
+ writeln('  --------------------------------------------------------------------------- ');
+ writeln(' |                       Welcome to the Doctor module                        | ');
+ writeln(' |                                                                           | ');
+ writeln(' |   Please enter Doctor name in format: FName_LName-',ID,'                      | ');{This instructs the user to enter the doctor's name with their unique ID at the end, also the info line}
+ writeln(' |                                                                           | ');
+ writeln(' |   Doctor File Name:                                                       | ');
+ writeln(' |                                                                           | ');
+ writeln(' |   Doctor Title:                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |   Doctor First Name:                                                      | ');
+ writeln(' |                                                                           | ');
+ writeln(' |   Doctor Last Name:                                                       | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln('  --------------------------------------------------------------------------- ');
 
- assign(DoctorFile, 'Doctors/'+Filename+'.txt'); {This assigns the identifier PatientFile to the patients file} {The plus sign makes it work, must join the strings or something}
- 1: {this allows the user to re enter information if there was an error}
- rewrite(DoctorFile);      {This creates a new file in the name of the patient}
- writeln(DoctorFile, FileName); {This writes the Filename used to the patients file}
- writeln(DoctorFile, ID); {This writes the patients unique ID to their file}
- writeln('Please enter the Doctors title');
- readln(DTitle);
+ if ID<10 then
+   begin
+    GotoXY(60,4);  //goes to the end of the info line
+    ClrEOL; //clears the line
+    writeln('                  | ');    //inserts a space and line to fix formatting with low ID's
+   end;
+
+ //if Counter2 = 1 then     //makes for single run only code to fix a problem without causing others
+  //begin
+   //readln; {This fixed the program skipping a readln}
+   //Inc(Counter2); //increases the counter allowing bypass of this code if a return to top is made
+  //end;
+
+ GotoXY(24,6); //moves to the file name line
+ readln(Filename); {This reads the doctors name to make a file in their name}
+
+ assign(DoctorFile, 'Doctors/'+Filename+'.txt'); {This assigns the identifier Doctor File to the Doctors file}
+ GotoXY(6,4); //puts the cursor at the info line
+ ClrEOL;       //clears the info line
+ write('Checking for file...');
+ delay(500);
+ {$i-}   {Turns off compiler error checking preventing the program from crashing if no file is at the entered name}
+ rewrite(DoctorFile);   {creates a new doctor file}
+ {$i+}   {Turns compiler error checking back on}
+ if IOresult<>0 then   {IOresult returns a value depending on whether or not there was an error with the input, 0 means no error}
+    begin
+      if Counter = 4 then {This returns to the main menu if too many tries are made to prevent been stuck there}
+         begin
+           GotoXY(6,4);   //moves cursor to the info line
+           ClrEOL;        //clears the info line
+           writeln('Too many tries, press enter to return to main menu');
+           delay(500);
+           goto 3;      {go's to the end of the procedure}
+         end;
+      gotoXY(6,4);   //moves cursor to the info line
+      ClrEOL;        //clears the info line
+      write('Error, file not found try again');   {Tells the user that they entered an invalid file name}
+      delay(500);
+      Inc(Counter); {Increases the counter by one}
+      goto 1;       {returns to the top of the procedure}
+    end
+ else
+   begin
+    writeln(DoctorFile, FileName); {This writes the Filename used to the Doctors file}
+    writeln(DoctorFile, ID); {This writes the Doctors unique ID to their file}
+   end;
+
+ GotoXY(6,4); //moves to the info line
+ ClrEOL; //clears the info line
+ writeln('File created, please continue');
+
+ GotoXY(20,8); //moves to the title line
+ ClrEOL;       //clears any existing text
+ readln(DTitle);   //reads the doctors title
  writeln(DoctorFile, DTitle); {this writes the Doctors title to their file}
- writeln('Enter Doctor First Name please');
+
+ GotoXY(25,10); //moves to the first name line
+ ClrEOL;       //clears any existing text
  readln(DoctorFName);    {This reads the Doctors name to save their details}
  writeln(DoctorFile, DoctorFName);    {This writes the doctors first name to their file}
- writeln('Please Enter Doctor Last Name');
- readln(DoctorLName);
+
+ GotoXY(24,12); //moves to the last name line
+ ClrEOL; //clears any existing text
+ readln(DoctorLName);  //reads the doctors last name
  writeln(DoctorFile, DoctorLName);  {This writes the doctors last name to their file}
- close(DoctorFile);
+ close(DoctorFile); //saves and closes the doctor file
 
- writeln('You have entered the following details');  {this writes what the user entered to the console to verify the details}
- reset(DoctorFile);   {Opens the Doctor file for reading}
- readln(DoctorFile, FileName); {reads the file name from the Doctors file}
- readln(DoctorFile, ID);       {reads the ID from the Doctors file}
- readln(DoctorFile, DTitle);         {reads the Doctors title from the Doctor file}
- readln(DoctorFile, DoctorFName);   {reads the Doctors details from the Doctor file}
- readln(DoctorFile, DoctorLName);   {reads the Doctors last name from the Doctor file}
-
- writeln('File Name: ', FileName);    {writes the File Name to the console}
- writeln('ID: ',ID);                  {writes the ID to the console}
- writeln('First Name: ', DoctorFName); {writes the Doctors first name to the console}
- writeln('Last Name: ', DoctorLName); {writes the Doctors last name to the console}
- close(DoctorFile);
-
- writeln('Is this information correct?');
- writeln('1.Yes');
- writeln('2.No');
- readln(choice);
- if choice = 1 then
-    writeln('Ok, infomation saved') {simply displays a confirmation message and continues back to the main menu}
- else goto 1;   {returns to the top of the information enter area}
+ gotoXY(6,4); //moves to the info line
+ ClrEOL;      //clears the info line
+ write('Is this information correct?              Press y for yes or n for no');
+ Key:=ReadKey;     //this reads the key entered so the user doesnt need to press enter
+ if Key = 'n' then      //if key is no then returns to top of procedure and erases new file
+  begin
+   erase(DoctorFile);
+   goto 1;
+  end;
+ GotoXY(6,4);  //moves to the info line
+ ClrEOL; //clears the info line
+ writeln('Ok, infomation saved'); {simply displays a confirmation message and continues back to the main menu}
+ delay(500);
+ GotoXY(6,4); //moves to the info line
+ ClrEOL; //clears the info line
  writeln('Press enter to continue please');
+ delay(500);
+ 3:
 end;
-procedure EditDoctor;     //make files txts
+procedure EditDoctor;
 label 1; {Allows the user to edit another field at the end}
 label 2; {Stops the program crashing if the user enters an invalid file name}
 label 3; {Allows return to main menu if too many attempts made at file name}
 begin
  Counter:= 1; {Initialises the counter}
- ClrScr; {Gets rid of any previous menus}
- writeln('This screen allows you to edit a Doctors details');
- 2:
- writeln('Please enter the Doctors filename');
- readln(Filename);
  1:
- ClrScr;
+ ClrScr; {Gets rid of any previous menus}
+ writeln('  --------------------------------------------------------------------------- ');
+ writeln(' |                       Welcome to the Doctor module                        | ');
+ writeln(' |                                                                           | ');
+ writeln(' |   Please enter the doctors file name                                      | '); //the info line
+ writeln(' |                                                                           | ');
+ writeln(' |      Doctor File Name:                                                    | ');
+ writeln(' |                                                                           | ');
+ writeln(' |   1. Doctor Title:                                                        | ');
+ writeln(' |                                                                           | ');
+ writeln(' |   2. Doctor First Name:                                                   | ');
+ writeln(' |                                                                           | ');
+ writeln(' |   3. Doctor Last Name:                                                    | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln(' |                                                                           | ');
+ writeln('  --------------------------------------------------------------------------- ');
+
+ 2:
+ GotoXY(28,6); //moves to the file name line
+ readln(Filename);  //reads the filename
 
  assign(DoctorFile, 'Doctors/'+Filename+'.txt'); {This assigns the identifier DoctorFile to the Doctors file} {The plus sign makes it work, must join the strings or something}
+ GotoXY(6,4); //puts the cursor at the info line
+ ClrEOL;       //clears the info line
  writeln('Checking for file...');
  delay(500);
  {$i-}   {Turns off compiler error checking preventing the program from crashing if no file is at the entered name}
  reset(DoctorFile);   {Opens the Doctor file for reading}
  {$i+}   {Turns compiler error checking back on}
  if IOresult<>0 then   {IOresult returns a value depending on whether or not there was an error with the input, 0 means no error}
-    begin
-      if Counter = 4 then {This returns to the main menu if too many tries are made to prevent been stuck there}
-         begin
-           writeln('Too many tries, returning to main menu');
-           goto 3;      {go's to the end of the procedure}
-         end;
-      writeln('Error, file not found try again');   {Tells the user that they entered an invalid file name}
-      Inc(Counter); {Increases the counter by one}
-      goto 2;       {returns to just before asking the user to enter a file name}
-    end
- else
-   begin
-    writeln('This is the current information for the Doctor:');
-   end;
+  begin
+    if Counter = 4 then {This returns to the main menu if too many tries are made to prevent been stuck there}
+       begin
+         GotoXY(6,4);   //moves cursor to the info line
+         ClrEOL;        //clears the info line
+         writeln('Too many tries, press enter to return to main menu');
+         delay(500);
+         goto 3;      {go's to the end of the procedure}
+       end;
+    gotoXY(6,4);   //moves cursor to the info line
+    ClrEOL;        //clears the info line
+    write('Error, file not found try again');   {Tells the user that they entered an invalid file name}
+    delay(500);
+    Inc(Counter); {Increases the counter by one}
+    goto 1;       {returns to the top of the procedure}
+  end
+else
+ begin
+  GotoXY(6,4); //moves to the info line
+  ClrEOL; //clears the info line
+  writeln('File found, details below');
+ end;
  readln(DoctorFile, FileName); {reads the file name from the Doctors file}
  readln(DoctorFile, ID);       {reads the ID from the Doctors file}
  readln(DoctorFile, DTitle);         {reads the Doctors title from the Doctors file}
  readln(DoctorFile, DoctorFName);   {reads the Doctors details from the Doctor file}
  readln(DoctorFile, DoctorLName);   {reads the Doctors last name from the Doctors file}
- writeln('File Name: ', FileName);    {writes the File Name to the console}
- writeln('ID: ',ID);                  {writes the ID to the console}
- writeln('Title: ', PTitle);          {Writes the title to the terminal}
- writeln('First Name: ', DoctorFName); {writes the Doctors first name to the console}
- writeln('Last Name: ', DoctorLName); {writes the Doctors last name to the console}
+
+ GotoXY(24,8); //moves to the title line
+ ClrEOL;       //clears any existing text
+ writeln(DTitle);          {Writes the title to the terminal}
+
+ GotoXY(29,10); //moves to the first name line
+ ClrEOL;       //clears any existing text
+ writeln(DoctorFName); {writes the Doctors first name to the console}
+
+ GotoXY(28,12); //moves to the last name line
+ ClrEOL; //clears any existing text
+ writeln(DoctorLName); {writes the Doctors last name to the console}
  close(DoctorFile);
  delay(1000);
- writeln;
 
- writeln('Please choose a field to edit');
- writeln('1: Title');
- writeln('2: First Name');
- writeln('3: Last Name');
- writeln;
+ GotoXY(6,4); //moves to the info line
+ ClrEOL; //clears the info line
+ writeln('Please enter the number of the field you wish to edit');
 
- writeln('Please enter a number');
- readln(Choice);    {reads which number the user has chosen}
+ Key:= ReadKey;    {reads which number the user has chosen}
+ Keyinteger:= integer(Key)-48;   //converts the char Key into an integer Keyinteger for use in the case
  delay(500);
- writeln('Please enter the new detail:');
- case choice of 1: read(PTitle); {reads the new Doctor title, overwriting the previous one}
-                2: read(DoctorFName); {reads the new Doctor first name, overwriting the previous one}
-                3: read(DoctorLName); {reads the new Doctor last name, overwriting the previous one}
+ gotoXY(6,4); //moves the cursor to the info line
+ ClrEOL;      //clears the info line
+ write('Please enter the new detail: ');
+ case Keyinteger of 1: readln(PTitle); {reads the new Doctor title, overwriting the previous one}
+                    2: readln(DoctorFName); {reads the new Doctor first name, overwriting the previous one}
+                    3: readln(DoctorLName); {reads the new Doctor last name, overwriting the previous one}
 
  end;
 
@@ -709,16 +829,18 @@ begin
  writeln(DoctorFile, DoctorFName);      {This writes the Doctors first name to their file}
  writeln(DoctorFile, DoctorLName);      {This writes the Doctors last name to their file}
  close(DoctorFile);                      {Saves the file}
- writeln('File adjusted, would you like to edit another field?');
- writeln('1: Yes');
- writeln('2: No');
- readln(Choice);   {reads what option they chose}
- if choice = 1 then goto 1;
- writeln('Please press enter to return to main menu');
+
+ GotoXY(6,4); //moves the cursor to the info line
+ ClrEOL; //clears the info line
+ write('File adjusted, would you like to edit another field?  y = yes n = no');
+ Key:= ReadKey;   {reads what option they chose}
+ if Key = 'y' then goto 1;     //returns to near the top of the procedure if the user wishes to edit another field
+ GotoXY(6,4); //moves the cursor to the info line
+ ClrEOL; //clears the info line
+ writeln('Please press enter to return to main menu');  //may or may not need to press enter
  delay(1500);
  3: {Allows for return to main menu if too many tries at file name made}
 end;
-
 procedure GPScreen;
 begin
   clrscr;   {Clears the previous menu and displays the patient menu}
@@ -749,13 +871,14 @@ begin
   gotoXY(6,13);
   write('Please select a number:');
   gotoXY(30,13);
-  read(choice); {reads the choice from the cursor position which is after the please select a number}
+  readln(choice); {reads the choice from the cursor position which is after the please select a number}
   case choice of 1: AddDoctor;
                  2: EditDoctor;
   end;
-  readln;
 
 end;
+
+//the appointment module
 procedure AddAppointment;
 label 2; {allows the user to try again if an error is made}
 label 3; {exits the procedure if too many errors are made}
@@ -767,15 +890,23 @@ begin
  assign(AvApps, 'Appointments/AvApps.txt');
  writeln('These are the currently available appointments:');
  reset(AvApps);   //opens the list of times for reading
+ Counter:=0; //initialises the counter
  while not EoF(AvApps) do {reads the list of available appointments from the file}
    begin
     if EoF(AvApps) then break;  {leaves the loop if end of the file}
     readln(AvApps, time);   {reads a time from the file}
     writeln(time);          {writes the time to the file}
+    inc(counter); //increases the counter
+    if Counter = 5 then
+       begin
+       Counter:= 0; //reinitialises the counter
+       writeln('Press enter to view next page');
+       readln;
+       ClrScr; //clears the screen
+       end;
    end;
  close(AvApps);
- readln;
- writeln;
+
  999: //allows the user to enter the time again if they make a mistake
  writeln('Please enter a time in format 0000xx, e.g 1030am or 0200pm');
  readln(time);    //reads what time the user wants to make an appointment for
@@ -854,6 +985,7 @@ begin
     end
  else
    begin
+    ClrScr; //clears previous text
     writeln('These are the current appointment details:');
    end;
  readln(DoctorFile, DFileName); {reads the file name from the Doctors file}
@@ -909,6 +1041,7 @@ begin
  append(BookedApps);
  writeln(BookedApps, time);
  close(BookedApps);
+ writeln('Please press enter when ready to continue');
  3:{exits the procedure if a mistake is made too many times}
 end;
 procedure ViewAppointment;
@@ -955,22 +1088,22 @@ begin
  close(Appointment);
 
  writeln('Patient details');
- writeln('Patient Filename: ',Filename);      //writes the read variables to the terminal
- writeln('Patient ID: ',ID);
- writeln('Patient Title: ',PTitle);
- writeln('Patient First Name: ',PatientFName);
- writeln(PatientLName);
+ writeln(' Patient Filename: ',Filename);      //writes the read variables to the terminal
+ writeln(' Patient ID: ',ID);
+ writeln(' Patient Title: ',PTitle);
+ writeln(' Patient First Name: ',PatientFName);
+ writeln(' Patient Last Name: ',PatientLName);
  writeln(' ');   //adds a small space for formatting and ease of reading
- writeln(DFilename);
- writeln(DID);
- writeln(DTitle);
- writeln(DoctorFName);
- writeln(DoctorLName);
+ writeln('Doctor Details');
+ writeln(' Doctor Filename: ',DFilename);
+ writeln(' Doctor ID: ',DID);
+ writeln(' Doctor Title: ',DTitle);
+ writeln(' Doctor First Name: ',DoctorFName);
+ writeln(' Doctor Last Name: ',DoctorLName);
  writeln;
  writeln('Press enter to continue');
  3:
 end;
-
 procedure ScheduleMenu;
 begin
  clrscr;   {Clears the previous menu and displays the patient menu}
@@ -1008,30 +1141,38 @@ begin
  readln;
 
 end;
+
+//the print daily list module
 procedure PrintDailyList;
 begin
  clrscr;
  writeln('This screen will allow you to print a list of all scheduled appointment times');
- writeln('If you wish to view the details for an appointment please use the view appointment screen located in the Appointment screen option in the main menu');
+ writeln;
+ writeln('If you wish to view the details for an appointment please use the');
+ writeln('view appointment screen located in the Appointment screen option in the');
+ writeln('main menu');
+ writeln;
  writeln('There are appointments booked at the following times: ');
 
  assign(BookedApps, 'Appointments/BookedApps.txt');
- Applist:= TStringList.Create;
- Applist.LoadFromFile('Appointments/BookedApps.txt');
- writeln(Applist.Text);
- Applist.free;
+ Applist:= TStringList.Create;       //creates a T String List under the name Applist
+ Applist.LoadFromFile('Appointments/BookedApps.txt');    //loads the booked times from the bookedapps file
+ writeln(Applist.Text);                   //writes the booked times to the terminal
+ Applist.free;                        //deletes the T String List
 
- readln;
+ writeln('Press enter when ready to continue');
  readln;
 
 
 
 end;
+
+//the admin module
 Procedure AdminMenu;
 label 1; {Skips back to admin menu}
 begin
  ClrScr;
- goto 1;   {Skips the log in system while everything is been tested}
+ //goto 1;   {Skips the log in system while everything is been tested}
 repeat {This is an authentication system}
        writeln('Welcome to the Admin Menu, please enter your credentials to continue');
        delay(50);
@@ -1336,7 +1477,7 @@ begin
   ClrEol;
   writeln('Please choose a number:        |');
   gotoXY(50,11); {moves the cursor to the right of the choose number line}
-  read(Choice);
+  readln(Choice);
   case Choice of 1:begin
                             PatientScreen;
                             {break the breaks in this case are needed to exit the loop successfully}
@@ -1406,6 +1547,4 @@ begin
   //1:  This produced a definition error  ¯\_(ツ)_/¯
   MainMenu;
   ClrScrr;
-  writeln;
-  readln;
-  end.
+ {The} end.
