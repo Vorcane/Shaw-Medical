@@ -8,13 +8,16 @@ const
 
 Var Choice, ID, Counter, Counter2, Index, Keyinteger:integer;
     PatientFile, IDFile, FilenameFile, DoctorFile, AvApps, Appointment, BookedApps:text;
-    Filename, PatientFName, PatientLName, PatientAddress, AdminUsername, AdminPassword, PTitle:string;
-    PPostCode, PatientTelephone, PDOB, DTitle, DoctorFName, DoctorLName, time, DFilename, DID, ninjaline:string;
+    Filename, PatientFName, PatientLName, PatientAddress, PPostCode, PatientTelephone, PDOB, PTitle:string; //patient strings
+    AdminUsername, AdminPassword:string;    //log in details
+    DTitle, DoctorFName, DoctorLName, DFilename, DID:string; //doctor strings
+    time, ninjaline:string;
     Filearray : Array[1..999] of string;
     FileList, AppList:TStringList;
     Key:char;
 
 
+//the patient module
 Procedure AddPatient;
 label 1;
 begin
@@ -588,6 +591,7 @@ begin
  readln;
 end;
 
+//the doctor module
 procedure AddDoctor;
 label 1; {Allows the user to edit what they entered if they made a mistake}
 label 3;
@@ -874,6 +878,7 @@ begin
 
 end;
 
+//the appointment module
 procedure AddAppointment;
 label 2; {allows the user to try again if an error is made}
 label 3; {exits the procedure if too many errors are made}
@@ -1137,6 +1142,7 @@ begin
 
 end;
 
+//the print daily list module
 procedure PrintDailyList;
 begin
  clrscr;
@@ -1161,6 +1167,7 @@ begin
 
 end;
 
+//the admin module
 Procedure AdminMenu;
 label 1; {Skips back to admin menu}
 begin

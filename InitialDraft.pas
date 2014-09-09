@@ -8,10 +8,10 @@ const
 
 Var Choice, ID, Counter, Counter2, Index, Keyinteger:integer;
     PatientFile, IDFile, FilenameFile, DoctorFile, AvApps, Appointment, BookedApps:text;
-    Filename, PatientFName, PatientLName, PatientAddress, PPostCode, PatientTelephone, PDOB, PTitle:string //patient strings
-    AdminUsername, AdminPassword, :string;    //log in details
+    Filename, PatientFName, PatientLName, PatientAddress, PPostCode, PatientTelephone, PDOB, PTitle:string; //patient strings
+    AdminUsername, AdminPassword:string;    //log in details
     DTitle, DoctorFName, DoctorLName, DFilename, DID:string; //doctor strings
-    time, ninjaline:string
+    time, ninjaline:string;
     Filearray : Array[1..999] of string;
     FileList, AppList:TStringList;
     Key:char;
@@ -929,7 +929,7 @@ begin
     end
  else
    begin
-    writeln('File found, proceeding now');
+    writeln('File created, proceeding now');
    end;
 
  writeln('Please enter the filename of the patient to be added');
@@ -1191,7 +1191,7 @@ repeat {This is an authentication system}
            writeln('invalid username');
            clrscr
          end;
- until AdminPassword = 'Password'; {Makes sure the user cant proceed until correct password has been entered}
+ until AdminPassword = APassword; {Makes sure the user cant proceed until correct password has been entered}
  writeln('Credentials recognised, welcome back');
 
  delay(500);
