@@ -8,9 +8,9 @@ const
 
 Var Choice, ID, Counter, Counter2, Index, Keyinteger:integer;
     PatientFile, IDFile, FilenameFile, DoctorFile, AvApps, Appointment, BookedApps:text;
-    Filename, PatientFName, PatientLName, PatientAddress, PPostCode, PatientTelephone, PDOB, PTitle:string; //patient strings
+    Filename, PatientFName, PatientLName, PatientAddress, PPostCode, PatientTelephone, PDOB, PTitle:string; //patient details
     AdminUsername, AdminPassword:string;    //log in details
-    DTitle, DoctorFName, DoctorLName, DFilename, DID:string; //doctor strings
+    DTitle, DoctorFName, DoctorLName, DFilename, DID:string; //doctor details
     time, ninjaline:string;
     Filearray : Array[1..999] of string;
     FileList, AppList:TStringList;
@@ -102,7 +102,7 @@ begin
  writeln(PatientFile, PatientLName);  {This writes the patients last name to their file}
 
  gotoXY(23,14); //moves the cursor to the patient address field
- readln(PatientAddress);  //reads the patient address from the user
+ readln(PatientAddress) ;  //reads the patient address from the user
  writeln(PatientFile, PatientAddress); {This writes the patients address to their file}
 
  gotoXY(25,16); //moves the cursor to the post code field
@@ -1239,6 +1239,7 @@ repeat {This is an authentication system}
  read(Choice);
  case Choice of 1:        begin
                            repeat
+                           ClrScr;
                            writeln('warning this will reset the ID File and could result in patient files been overwritten');
                            writeln('This will also clear the filename file');
                            delay(500);   {provides delays to make sure the user really want to reset the file}
@@ -1268,6 +1269,7 @@ repeat {This is an authentication system}
 
                         2:begin
                            repeat
+                           ClrScr;
                            writeln('This will clear the File Name file');
                            delay(500);    {again just makes the user pause a moment to consider whether they really want to do this}
                            writeln('This is irreversible');
@@ -1293,6 +1295,7 @@ repeat {This is an authentication system}
                           end;
 
                         3:begin
+                           ClrScr;
                            writeln('This will get the program ready for the day and will delete all of yesterdays appointments');
                            writeln('Are you sure you want to continue?');
                            writeln('1: Yes');
@@ -1323,7 +1326,7 @@ repeat {This is an authentication system}
                            writeln(AvApps, '0630pm');
                            close(AvApps);
 
-                           assign(Appointment, 'Appointments/0900am.txt');   {This next bit creates blank text files for every appointment}
+                           assign(Appointment, 'Appointments/0900am.txt');   {This next bit creates blank text files for every appointment time}
                            rewrite(Appointment);
                            close(Appointment);
 

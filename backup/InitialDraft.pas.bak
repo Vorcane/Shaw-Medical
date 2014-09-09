@@ -929,7 +929,7 @@ begin
     end
  else
    begin
-    writeln('File found, proceeding now');
+    writeln('File created, proceeding now');
    end;
 
  writeln('Please enter the filename of the patient to be added');
@@ -1191,7 +1191,7 @@ repeat {This is an authentication system}
            writeln('invalid username');
            clrscr
          end;
- until AdminPassword = 'Password'; {Makes sure the user cant proceed until correct password has been entered}
+ until AdminPassword = APassword; {Makes sure the user cant proceed until correct password has been entered}
  writeln('Credentials recognised, welcome back');
 
  delay(500);
